@@ -1,0 +1,88 @@
+---
+title: "assignment2"
+output: html_document
+---
+
+| B | 2.2b, 2.3a, 2.5a | 3.10 | Statistics: ANCOVA (type+diameter+height); Optimization: base diet LP; staffing (covering). |
+
+| C | 2.2a, 2.2c, 2.4b, 2.5b, 2.1d | 3.40 | Statistics: ANOVA + transformation; Optimization: fixed-charge transport; L1 staffing fit; prediction intervals. |
+
+Exercise 2.1 Scholastic Aptitude Test
+The data in the file sat.txt concerns data on the Scholastic Aptitude Test (SAT) for pupils in
+the United States in 1994/1995. The column expend contains the mean expenses per pupil (in
+$ per pupil), ratio is the pupil/teacher ratio, salary is the mean salary of teachers, takers
+is the percentage of pupils that takes the SAT. Variables verbal and math are partial scores
+of the total SAT score in total and not used in the analysis. All data are per state.
+
+
+Exercise 2.2 Trees
+The ‘Amsterdamsche Bos’ Forestry wishes to estimate the total wood volume of the trees on
+its domain. To this end the Forestry has cut a sample of 59 trees of their most prevalent type
+‘Beech’ and ‘Oak’. The volume of these trees alongside with their height and trunk diameter
+have been measured. The latter two characteristics can be measured in the field without
+sacrificing the tree. The Forestry hypothesizes that these are predictive of the tree’s volume.
+The data (in the file treeVolume.txt) from the cut trees is to uncover this relationship, taking
+into account the tree type.
+a) (0.7) Investigate whether tree type influences volume by performing ANOVA, without
+taking the diameter or height into account. Is an oak more voluminous than a beech?
+What are the estimated volumes for the two tree types?
+```{r}
+data = read.table("treeVolume.txt", header = TRUE)
+data$type <- factor(data$type)
+model_a = lm(volume ~ type, data = data)
+
+summary(model_a)
+anova(model_a)
+
+```
+There is no statistically significant difference in average volume between Oak and Beech trees in this sample.
+That means, based on these 59 trees, we cannot conclude that Oaks are more voluminous than Beeches.
+
+A one-way ANOVA comparing mean wood volume between Beech and Oak trees showed no significant difference (F = 1.90, p = 0.17).
+The estimated mean volumes were ≈ [insert your group means]; hence, although Oaks appear slightly larger on average, this difference is not statistically significant at the 5 % level.
+
+b) (1.1) Investigate whether the tree type influences the volume, now including diameter
+and height (but no interactions) as predictors into the analysis, which results in an
+ANCOVA analysis. How does tree type influence volume? What are the estimated
+volumes for the two tree types with average diameter and height? (Hint: use function
+predict.) How does diameter influence volume? Graphically (or propose and perform
+a relevant test) investigate whether this dependence is similar for both tree types.
+
+```{r}
+data = read.table("treeVolume.txt", header=TRUE)
+data$type = factor(data$type)
+
+model_b <- lm(volume ~ diameter + height + type, data = data)
+
+summary(model_b)
+anova(model_b)          
+```
+
+
+
+
+Exercise 2.3 Optimal Product Mix
+Consider the prices and nutrients of the following foods.
+You are interested in finding the cheapest diet that satisfies the following (you can take
+fractions of servings):
+Calories must be at least 2000,
+Fat must be at least 50g,
+Protein must be at least 100g,
+Carbohydrates must be at least 250g.
+
+
+Exercise 2.4 Transportation Problem (will be discussed in Lecture 9)
+Consider a transportation problem in which goods have to be transported from 3 sources
+labeled as S1, S2 and S3 to 4 destinations labeled as D1, D2, D3 and D4. The costs in euros
+per unit transported from a source to a destination are given in the following table. It also
+contains the demand at the destinations and the available supply at the sources:
+
+
+Exercise 2.5 Call Center Staffing
+Based on predictive analytics and some service level requirement, the required staffing in a
+call center from 09:00 to 21:00 is given Table 1. There are 2 types of shifts available:
+(i) 8-hour working shifts with 30 minutes unpaid break after 4 working hours (note: this
+shift takes 8.5 hours in total). These shifts can start every half an hour from 09:00 to
+12:30. The wage is 20 euro/hour.
+(ii) 4-hour working shifts without a break that can start every half an hour from 09:00 to
+17:00. The wage is 24 euro/hour.
