@@ -1,0 +1,53 @@
+---
+title: "Assignment 2 Group 26"
+author: 
+  - "Vanshita Sharma Kumar"
+  - "Lucian Truşcă"
+  - "Xander Poortvliet"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(modelsummary)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Excercise 2.1 
+We first will start with the full multi-regression model
+```{r 2.1 a}
+sat = read.delim("sat.txt", header=TRUE, sep = "", stringsAsFactors = FALSE)
+model_full <- lm(total ~ expend + ratio + salary + takers, data=sat)
+```
+```{r, echo=FALSE}
+print(summary(model_full))
+print(AIC(model_full))
+
+result_table = modelsummary(list(
+    "model_full_AIC" = AIC(model_full),
+    "model_StepDown_AIC" = AIC(model_StepDown),
+    "model_StepUp_AIC" = AIC(model_StepUp)
+), 
+statistic = "({std.error})",      # show SEs in parentheses
+  stars = TRUE,                      # significance stars
+  gof_map = list(                    # control bottom GOF rows
+    list("raw"="nobs", "clean"="N", "fmt"=0),
+    list("raw"="r.squared", "clean"="R²", "fmt"=3),
+    list("raw"="adj.r.squared", "clean"="Adj. R²", "fmt"=3),
+    list("raw"="AIC", "clean"="AIC", "fmt"=1),
+    list("raw"="BIC", "clean"="BIC", "fmt"=1)
+  )
+```
+
+Step Up method: With the forward selection we will first start with no predictors and add variables one by one based on the lowest AIC
+```{r 2.1 a}
+model_StepUp <- lm(total ~ expend + takers, data=sat)
+```
+```{r, echo=FALSE}
+print(summary(model_StepUp))
+print(AIC(model_StepUp))
+```
+
+Model interpretation: SAT performance is best explained by school spending and participation rate. Other variables (ratio, salary) don’t significantly improve model fit. 
