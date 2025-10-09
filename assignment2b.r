@@ -1,3 +1,5 @@
+# 2.1 b
+
 ## 1) Load data & create takers^2
 sat <- read.table("sat.txt", header = TRUE)
 sat$takers2 <- sat$takers^2
