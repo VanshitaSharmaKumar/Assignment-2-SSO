@@ -57,7 +57,7 @@ model_b <- lm(volume ~ diameter + height + type, data = data)
 summary(model_b)
 anova(model_b)          
 ```
-
+2.2B NOT YET DONE!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
