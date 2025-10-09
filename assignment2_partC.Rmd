@@ -1,0 +1,73 @@
+---
+title: "assignment2_partC"
+output:
+  html_document:
+    df_print: paged
+date: "2025-10-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r data}
+sat = read.table("sat.txt", header = TRUE, sep = " ")
+head(sat)
+
+trees = read.table("treeVolume.txt", header = TRUE, sep = "\t")
+trees$type = factor(trees$type)
+head(trees)
+```
+
+## Exercise 2.2a
+
+```{r 2.2a}
+model_a = lm(volume~type, data = trees)
+anova(model_a) 
+
+mean(trees$volume[trees$type=="beech"])
+mean(trees$volume[trees$type=="oak"])
+```
+
+-   H0: The volume means of both types are the same.
+
+p \> 0.05, hence, H0 is not rejected and we do not reject the hypothesis that the volume means of both tree types are the same. Hence, we do not reject that the tree type influences the volume, regardless of the diameter and height.
+
+## Exercise 2.2c
+
+The volume of a cilinder is calculated as follows: V = pi\*r^2\*H
+
+```{r 2.2c}
+trees$calc_vol = pi*((trees$diameter/2)^2)*trees$height
+model_c = lm(volume ~ calc_vol + type, data = trees)
+
+summary(model_c)
+anova(model_c)
+```
+
+As p <= 0.05, this yields a better result.
+
+## Exercise 2.4b
+
+Decision variables:
+- x_ij = quantity transported from i to j
+
+Objective:
+- Minimize costs: min(sum_ij(c_ij*x_ij))
+
+Constraints:
+- Max supply: sum_j(x_ij) <= a_i
+- Fulfil demand: sum_i(x_ij) >= b_j
+
+LO Model:
+min(10x_s1d1 + 20x_s1d3 + 11x_s1d4 + 12x_s2d2 + 7x_s2d2 + 9x_s2d3 + 20x_s2d4 + 14x_s3d2 + 16x_s3d3 + 18x_s3d4)
+
+s.t.
+- x_s1d1 + x_s1d2 + x_s1d3 + x_s1d4 <= 20
+- x_s2d1 + x_s2d2 + x_s2d3 + x_s2d4 <= 25
+- x_s3d1 + x_s3d2 + x_s3d3 + x_s3d4 <= 15
+- x_s1d1 + x_s2d1 + x_s3d1 + x_s4d1 >= 10
+- x_s1d2 + x_s2d2 + x_s3d2 + x_s4d2 >= 15
+- x_s1d3 + x_s2d3 + x_s3d3 + x_s4d3 >= 15
+- x_s1d4 + x_s2d4 + x_s3d4 + x_s4d4 >= 20
+- x_ij >= 0, i = s1,s2,s3, j = d1,d2,d3,d4
