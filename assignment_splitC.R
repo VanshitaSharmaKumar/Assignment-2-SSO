@@ -32,8 +32,8 @@ mean(trees$volume[trees$type=="oak"])
 
 trees$calc_vol = pi*((trees$diameter/2)^2)*trees$height
 model_c = lm(volume ~ calc_vol + type, data = trees)
+
+summary(model_c)
 anova(model_c)
 
 # As p <= 0.05, this yields a better result
-
-# -----------------------------
