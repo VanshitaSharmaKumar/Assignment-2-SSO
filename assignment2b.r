@@ -1,34 +1,27 @@
-# packages
-library(MASS)         # stepAIC
-library(dplyr)
-sat = read.delim("sat.txt", header=TRUE, sep = "", stringsAsFactors = FALSE)
-names(sat)[1] = "state"
+## 1) Load data & create takers^2
+sat <- read.table("sat.txt", header = TRUE)
+sat$takers2 <- sat$takers^2
 
-# create quadratic term
-sat = mutate(sat, takers2 = takers^2)
+## 2) Stepwise model selection (AIC)
+# forward (start from intercept)
+m0    <- lm(total ~ 1, data = sat)
+scope <- ~ expend + ratio + salary + takers + takers2
+m_fwd <- step(m0, scope = list(lower = ~1, upper = scope),
+              direction = "forward", trace = 0)
 
-# full & null models for stepwise search (include hierarchy: takers2 with takers)
-full_b  <- lm(total ~ expend + ratio + salary + takers + takers2, data = sat)
-null_b  <- lm(total ~ 1, data = sat)
+# backward (start from full)
+m_full <- lm(total ~ expend + ratio + salary + takers + takers2, data = sat)
+m_bwd  <- step(m_full, direction = "backward", trace = 0)
 
-# Forward selection
-step_up_b <- stepAIC(
-  null_b,
-  scope = list(lower = ~1, upper = ~ expend + ratio + salary + takers + takers2),
-  direction = "forward",
-  trace = FALSE
-)
+summery_fwd = summary(m_fwd)
+summery_bwd = summary(m_bwd)
+print(summery_fwd)
+print(summery_bwd)
 
-# Backward elimination
-step_dn_b <- stepAIC(
-  full_b,
-  direction = "backward",
-  trace = FALSE
-)
+## 3) Is takers^2 useful? Compare with/without the square
+m_nosq <- lm(total ~ expend + takers, data = sat)          # without takers^2
+m_sq   <- lm(formula(m_fwd), data = sat)                   # the selected model (with takers^2)
 
-step_up_b$call
-step_dn_b$call
-AIC(step_up_b); AIC(step_dn_b)
-summary(step_up_b)
-
-# Interpretation: After allowing curvature, participation has a convex relation with total SAT: scores drop as participation rises, but the decline tapers off at higher rates. Expenditure remains positively associated.
+result = AIC(m_nosq); AIC(m_sq) 
+cat(result)                                  # lower is better
+print(anova(m_nosq, m_sq)   )                                     # nested F-test

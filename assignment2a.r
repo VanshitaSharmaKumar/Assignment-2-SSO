@@ -10,13 +10,13 @@ model_full <- lm(total ~ expend + ratio + salary + takers, data=sat)
 print(summary(model_full))
 print(AIC(model_full))
 
-# Step-up Method, Forward Selection: we will first start with no predictors and add variables one by one based on the lowest AIC
+# Step-up Method: we will first start with no predictors and add variables one by one based on the lowest AIC
 model_StepUp <- lm(total ~ expend + takers, data=sat)
 print(summary(model_StepUp))
 print(AIC(model_StepUp))
 # AIC = 494.8
 
-# Step-down Method, Backward Elimination: we start from the full model and iteratively remove variables that worsen AIC the least.
+# Step-down Method: we start from the full model and iteratively remove variables that worsen AIC the least.
 model_StepDown <- lm(total ~ expend + takers, data=sat)
 print(summary(model_StepDown))
 print(AIC(model_StepDown)) # result = 494.8
