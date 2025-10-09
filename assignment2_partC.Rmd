@@ -47,27 +47,65 @@ anova(model_c)
 
 As p <= 0.05, this yields a better result.
 
-## Exercise 2.4b
+## Exercise 2.4a
 
-Decision variables:
-- x_ij = quantity transported from i to j
+### Decision variables:
 
-Objective:
-- Minimize costs: min(sum_ij(c_ij*x_ij))
+- $x_ij$ = quantity transported from i to j
 
-Constraints:
-- Max supply: sum_j(x_ij) <= a_i
-- Fulfil demand: sum_i(x_ij) >= b_j
+### Objective:
 
-LO Model:
-min(10x_s1d1 + 20x_s1d3 + 11x_s1d4 + 12x_s2d2 + 7x_s2d2 + 9x_s2d3 + 20x_s2d4 + 14x_s3d2 + 16x_s3d3 + 18x_s3d4)
+- Minimize costs: $min(sum_ij(c_{ij}*x_{ij}))$
+
+### Constraints:
+
+- Max supply: $sum_j(x_{ij}) <= a_i$
+- Fulfil demand: $sum_i(x_{ij}) >= b_j$
+
+### LO Model:
+
+$min(10x_{s1d1} + 20x_{s1d3} + 11x_{s1d4} + 12x_{s2d1} + 7x_{s2d2} + 9x_{s2d3} + 20x_{s2d4} + 14x_{s3d2} + 16x_{s3d3} + 18x_{s3d4})$
 
 s.t.
-- x_s1d1 + x_s1d2 + x_s1d3 + x_s1d4 <= 20
-- x_s2d1 + x_s2d2 + x_s2d3 + x_s2d4 <= 25
-- x_s3d1 + x_s3d2 + x_s3d3 + x_s3d4 <= 15
-- x_s1d1 + x_s2d1 + x_s3d1 + x_s4d1 >= 10
-- x_s1d2 + x_s2d2 + x_s3d2 + x_s4d2 >= 15
-- x_s1d3 + x_s2d3 + x_s3d3 + x_s4d3 >= 15
-- x_s1d4 + x_s2d4 + x_s3d4 + x_s4d4 >= 20
-- x_ij >= 0, i = s1,s2,s3, j = d1,d2,d3,d4
+
+- $x_{s1d1} + x_{s1d2} + x_{s1d3} + x_{s1d4} \leq 20$
+- $x_{s2d1} + x_{s2d2} + x_{s2d3} + x_{s2d4} \leq 25$
+- $x_{s3d1} + x_{s3d2} + x_{s3d3} + x_{s3d4} \leq 15$
+- $x_{s1d1} + x_{s2d1} + x_{s3d1} + x_{s4d1} \geq 10$
+- $x_{s1d2} + x_{s2d2} + x_{s3d2} + x_{s4d2} \geq 15$
+- $x_{s1d3} + x_{s2d3} + x_{s3d3} + x_{s4d3} \geq 15$
+- $x_{s1d4} + x_{s2d4} + x_{s3d4} + x_{s4d4} \geq 20$
+- $x_{ij} \geq= 0, i = s1,s2,s3, j = d1,d2,d3,d4$
+
+## Exercise 2.4b
+
+### Decision variables:
+
+- $x_{ij}$ = quantity transported from i to j
+- $y_{ij}$ = binary variable whether edge i to j is being used
+
+### Objective:
+
+- Minimize costs: $min(sum_{ij}(c_{ij}*x_{ij}+100y_{ij})$
+
+
+### Constraints:
+
+- Max supply: $sum_j(x_{ij}) <= a_i$
+- Fulfil demand: $sum_i(x_{ij}) >= b_j$
+
+### LO Model:
+
+$min(10x_{s1d1} + 100y_{s1d1} + 20x_{s1d3} + 100y_{s1d3} + 11x_{s1d4} + + 100y_{s1d4} + 12x_{s2d1} + 100y_{s2d1} + 7x_{s2d2} + 100y_{s2d2} + 9x_{s2d3} + 100y_{s2d3} + 20x_{s2d4} + 100y_{s2d4} + 14x_{s3d2} + 100y_{s3d2} + 16x_{s3d3} + 100y_{s3d3} + 18x_{s3d4} + 100y_{s3d4})$
+
+s.t.
+
+- $x_{s1d1} + x_{s1d2} + x_{s1d3} + x_{s1d4} \leq 20$
+- $x_{s2d1} + x_{s2d2} + x_{s2d3} + x_{s2d4} \leq 25$
+- $x_{s3d1} + x_{s3d2} + x_{s3d3} + x_{s3d4} \leq 15$
+- $x_{s1d1} + x_{s2d1} + x_{s3d1} + x_{s4d1} \geq 10$
+- $x_{s1d2} + x_{s2d2} + x_{s3d2} + x_{s4d2} \geq 15$
+- $x_{s1d3} + x_{s2d3} + x_{s3d3} + x_{s4d3} \geq 15$
+- $x_{s1d4} + x_{s2d4} + x_{s3d4} + x_{s4d4} \geq 20$
+- $x_{ij} \geq= 0, i = s1,s2,s3, j = d1,d2,d3,d4$
+- $y_{ij} = \{1,0\}$

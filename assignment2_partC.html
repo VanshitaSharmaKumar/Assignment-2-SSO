@@ -1694,7 +1694,112 @@ summary(model_c)</code></pre>
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"11477.08442","3":"11477.084422","4":"2183.8013996","5":"1.494900e-46","_rn_":"calc_vol"},{"1":"1","2":"2.93409","3":"2.934090","4":"0.5582838","5":"4.580785e-01","_rn_":"type"},{"1":"56","2":"294.31098","3":"5.255553","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>As p &lt;= 0.05, this yields a better result</p>
+<p>As p &lt;= 0.05, this yields a better result.</p>
+</div>
+<div id="exercise-2.4a" class="section level2">
+<h2>Exercise 2.4a</h2>
+<div id="decision-variables" class="section level3">
+<h3>Decision variables:</h3>
+<ul>
+<li><span class="math inline">\(x_ij\)</span> = quantity transported
+from i to j</li>
+</ul>
+</div>
+<div id="objective" class="section level3">
+<h3>Objective:</h3>
+<ul>
+<li>Minimize costs: <span class="math inline">\(min(sum_ij(c_{ij}*x_{ij}))\)</span></li>
+</ul>
+</div>
+<div id="constraints" class="section level3">
+<h3>Constraints:</h3>
+<ul>
+<li>Max supply: <span class="math inline">\(sum_j(x_{ij}) &lt;=
+a_i\)</span></li>
+<li>Fulfil demand: <span class="math inline">\(sum_i(x_{ij}) &gt;=
+b_j\)</span></li>
+</ul>
+</div>
+<div id="lo-model" class="section level3">
+<h3>LO Model:</h3>
+<p><span class="math inline">\(min(10x_{s1d1} + 20x_{s1d3} + 11x_{s1d4}
++ 12x_{s2d1} + 7x_{s2d2} + 9x_{s2d3} + 20x_{s2d4} + 14x_{s3d2} +
+16x_{s3d3} + 18x_{s3d4})\)</span></p>
+<p>s.t.</p>
+<ul>
+<li><span class="math inline">\(x_{s1d1} + x_{s1d2} + x_{s1d3} +
+x_{s1d4} \leq 20\)</span></li>
+<li><span class="math inline">\(x_{s2d1} + x_{s2d2} + x_{s2d3} +
+x_{s2d4} \leq 25\)</span></li>
+<li><span class="math inline">\(x_{s3d1} + x_{s3d2} + x_{s3d3} +
+x_{s3d4} \leq 15\)</span></li>
+<li><span class="math inline">\(x_{s1d1} + x_{s2d1} + x_{s3d1} +
+x_{s4d1} \geq 10\)</span></li>
+<li><span class="math inline">\(x_{s1d2} + x_{s2d2} + x_{s3d2} +
+x_{s4d2} \geq 15\)</span></li>
+<li><span class="math inline">\(x_{s1d3} + x_{s2d3} + x_{s3d3} +
+x_{s4d3} \geq 15\)</span></li>
+<li><span class="math inline">\(x_{s1d4} + x_{s2d4} + x_{s3d4} +
+x_{s4d4} \geq 20\)</span></li>
+<li><span class="math inline">\(x_{ij} \geq= 0, i = s1,s2,s3, j =
+d1,d2,d3,d4\)</span></li>
+</ul>
+</div>
+</div>
+<div id="exercise-2.4b" class="section level2">
+<h2>Exercise 2.4b</h2>
+<div id="decision-variables-1" class="section level3">
+<h3>Decision variables:</h3>
+<ul>
+<li><span class="math inline">\(x_{ij}\)</span> = quantity transported
+from i to j</li>
+<li><span class="math inline">\(y_{ij}\)</span> = binary variable
+whether edge i to j is being used</li>
+</ul>
+</div>
+<div id="objective-1" class="section level3">
+<h3>Objective:</h3>
+<ul>
+<li>Minimize costs: <span class="math inline">\(min(sum_{ij}(c_{ij}*x_{ij}+100y_{ij})\)</span></li>
+</ul>
+</div>
+<div id="constraints-1" class="section level3">
+<h3>Constraints:</h3>
+<ul>
+<li>Max supply: <span class="math inline">\(sum_j(x_{ij}) &lt;=
+a_i\)</span></li>
+<li>Fulfil demand: <span class="math inline">\(sum_i(x_{ij}) &gt;=
+b_j\)</span></li>
+</ul>
+</div>
+<div id="lo-model-1" class="section level3">
+<h3>LO Model:</h3>
+<p><span class="math inline">\(min(10x_{s1d1} + 100y_{s1d1} + 20x_{s1d3}
++ 100y_{s1d3} + 11x_{s1d4} + + 100y_{s1d4} + 12x_{s2d1} + 100y_{s2d1} +
+7x_{s2d2} + 100y_{s2d2} + 9x_{s2d3} + 100y_{s2d3} + 20x_{s2d4} +
+100y_{s2d4} + 14x_{s3d2} + 100y_{s3d2} + 16x_{s3d3} + 100y_{s3d3} +
+18x_{s3d4} + 100y_{s3d4})\)</span></p>
+<p>s.t.</p>
+<ul>
+<li><span class="math inline">\(x_{s1d1} + x_{s1d2} + x_{s1d3} +
+x_{s1d4} \leq 20\)</span></li>
+<li><span class="math inline">\(x_{s2d1} + x_{s2d2} + x_{s2d3} +
+x_{s2d4} \leq 25\)</span></li>
+<li><span class="math inline">\(x_{s3d1} + x_{s3d2} + x_{s3d3} +
+x_{s3d4} \leq 15\)</span></li>
+<li><span class="math inline">\(x_{s1d1} + x_{s2d1} + x_{s3d1} +
+x_{s4d1} \geq 10\)</span></li>
+<li><span class="math inline">\(x_{s1d2} + x_{s2d2} + x_{s3d2} +
+x_{s4d2} \geq 15\)</span></li>
+<li><span class="math inline">\(x_{s1d3} + x_{s2d3} + x_{s3d3} +
+x_{s4d3} \geq 15\)</span></li>
+<li><span class="math inline">\(x_{s1d4} + x_{s2d4} + x_{s3d4} +
+x_{s4d4} \geq 20\)</span></li>
+<li><span class="math inline">\(x_{ij} \geq= 0, i = s1,s2,s3, j =
+d1,d2,d3,d4\)</span></li>
+<li><span class="math inline">\(y_{ij} = \{1,0\}\)</span></li>
+</ul>
+</div>
 </div>
 
 
