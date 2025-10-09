@@ -5,16 +5,6 @@ output: html_document
 
 | B | 2.2b, 2.3a, 2.5a | 3.10 | Statistics: ANCOVA (type+diameter+height); Optimization: base diet LP; staffing (covering). |
 
-| C | 2.2a, 2.2c, 2.4b, 2.5b, 2.1d | 3.40 | Statistics: ANOVA + transformation; Optimization: fixed-charge transport; L1 staffing fit; prediction intervals. |
-
-Exercise 2.1 Scholastic Aptitude Test
-The data in the file sat.txt concerns data on the Scholastic Aptitude Test (SAT) for pupils in
-the United States in 1994/1995. The column expend contains the mean expenses per pupil (in
-$ per pupil), ratio is the pupil/teacher ratio, salary is the mean salary of teachers, takers
-is the percentage of pupils that takes the SAT. Variables verbal and math are partial scores
-of the total SAT score in total and not used in the analysis. All data are per state.
-
-
 Exercise 2.2 Trees
 The ‘Amsterdamsche Bos’ Forestry wishes to estimate the total wood volume of the trees on
 its domain. To this end the Forestry has cut a sample of 59 trees of their most prevalent type
@@ -59,30 +49,3 @@ anova(model_b)
 ```
 2.2B NOT YET DONE!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-
-Exercise 2.3 Optimal Product Mix
-Consider the prices and nutrients of the following foods.
-You are interested in finding the cheapest diet that satisfies the following (you can take
-fractions of servings):
-Calories must be at least 2000,
-Fat must be at least 50g,
-Protein must be at least 100g,
-Carbohydrates must be at least 250g.
-
-
-Exercise 2.4 Transportation Problem (will be discussed in Lecture 9)
-Consider a transportation problem in which goods have to be transported from 3 sources
-labeled as S1, S2 and S3 to 4 destinations labeled as D1, D2, D3 and D4. The costs in euros
-per unit transported from a source to a destination are given in the following table. It also
-contains the demand at the destinations and the available supply at the sources:
-
-
-Exercise 2.5 Call Center Staffing
-Based on predictive analytics and some service level requirement, the required staffing in a
-call center from 09:00 to 21:00 is given Table 1. There are 2 types of shifts available:
-(i) 8-hour working shifts with 30 minutes unpaid break after 4 working hours (note: this
-shift takes 8.5 hours in total). These shifts can start every half an hour from 09:00 to
-12:30. The wage is 20 euro/hour.
-(ii) 4-hour working shifts without a break that can start every half an hour from 09:00 to
-17:00. The wage is 24 euro/hour.
