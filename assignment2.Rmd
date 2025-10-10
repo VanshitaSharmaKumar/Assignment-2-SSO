@@ -81,7 +81,6 @@ Comparing the reduced model \(M_1\) to the expanded model \(M_2\), the ANOVA sho
 QUESTION D
 
 
-
 # Excercise 2.2
 ### 2.2a
 ```{r, echo=FALSE}
@@ -174,7 +173,7 @@ Same as (a), but restrict servings to integers:
 \[
 x_f \in \mathbb{Z}_{\ge 0}\quad \text{for all } f\in F.
 \]
-```{r, fig.cap=c('2.3c Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.3c Excel Solver'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3c.png'))
 ```
 *Interpretation.* Integrality removes the ability to hit thresholds exactly, so the solution “rounds up” and typically costs more than the fractional LP.
@@ -182,13 +181,8 @@ knitr::include_graphics(c('imgs/2_3c.png'))
 # Excercise 2.4
 
 ### 2.4a
-This model minimizes total shipping cost from three sources to four destinations (D1–D4).
-**Sets and data.**  
-Sources \(S=\{\text{s1},\text{s2},\text{s3}\}\), Destinations \(D=\{\text{d1},\text{d2},\text{d3},\text{d4}\}\).  
-Supply \(a_i\) for \(i\in S\), demand \(b_j\) for \(j\in D\), per-unit cost \(c_{ij}\) for \((i,j)\in S\times D\).
 
-**Decision variables.**  
-\(x_{ij}\ge 0\): quantity shipped from source \(i\) to destination \(j\).
+This model minimizes total shipping cost from three sources (S1–S3) to four destinations (D1–D4). Each source has a *supply limit* and each destination has a *demand requirement*. The Solver chooses shipments \(x_{ij}\) (from source \(i\) to destination \(j\)) so that **total cost is minimal** while all supply and demand constraints are met.
 
 **Model.**
 \[
@@ -201,62 +195,16 @@ Supply \(a_i\) for \(i\in S\), demand \(b_j\) for \(j\in D\), per-unit cost \(c_
 \end{aligned}
 \]
 
-**Concrete instance (your costs).**
-\[
-\begin{aligned}
-\min\; & 10x_{\text{s1,d1}} + 20x_{\text{s1,d3}} + 11x_{\text{s1,d4}}
-       + 12x_{\text{s2,d1}} + 7x_{\text{s2,d2}} + 9x_{\text{s2,d3}} + 20x_{\text{s2,d4}}
-       + 14x_{\text{s3,d2}} + 16x_{\text{s3,d3}} + 18x_{\text{s3,d4}} \\[2pt]
-\text{s.t.}\;
-& x_{\text{s1,d1}} + x_{\text{s1,d2}} + x_{\text{s1,d3}} + x_{\text{s1,d4}} \le 20,\\
-& x_{\text{s2,d1}} + x_{\text{s2,d2}} + x_{\text{s2,d3}} + x_{\text{s2,d4}} \le 25,\\
-& x_{\text{s3,d1}} + x_{\text{s3,d2}} + x_{\text{s3,d3}} + x_{\text{s3,d4}} \le 15,\\
-& x_{\text{s1,d1}} + x_{\text{s2,d1}} + x_{\text{s3,d1}} \ge 10,\\
-& x_{\text{s1,d2}} + x_{\text{s2,d2}} + x_{\text{s3,d2}} \ge 15,\\
-& x_{\text{s1,d3}} + x_{\text{s2,d3}} + x_{\text{s3,d3}} \ge 15,\\
-& x_{\text{s1,d4}} + x_{\text{s2,d4}} + x_{\text{s3,d4}} \ge 20,\\
-& x_{ij}\ge 0 \quad \forall i\in\{\text{s1,s2,s3}\},\; j\in\{\text{d1,d2,d3,d4}\}.
-\end{aligned}
-\]
-
 ```{r, fig.cap=c('2.4a Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_4a.png'))
 ```
-
+The optimal flows is the following, S1 ships 5 to D2 and 15 to D4; S2 ships 10 to D3 and 15 to D2; S3 ships 10 to D1 and 5 to D4. With a minimum total transportation cost of **\$460**.
+*Interpretation.* The solution uses the cheapest lanes as much as possible (e.g., S2\(\rightarrow\)D2, S3\(\rightarrow\)D1) and avoids expensive ones (e.g., S1\(\rightarrow\)D3). Total cost **\$460** is the most economical plan that exactly meets demand without exceeding supply.
 
 ### 2.4b 
-
-**Additional decision variables.**  
-\(y_{ij}\in\{0,1\}\): 1 if arc \((i,j)\) is used, else 0.
-
-**Objective (per-unit cost + opening cost 100 if used).**
-\[
-\min_{x,y}\; \sum_{i\in S}\sum_{j\in D} \big(c_{ij}\,x_{ij} + 100\,y_{ij}\big).
-\]
-
-**Constraints (supply, demand, linking, domains).**
-\[
-\begin{aligned}
-& \sum_{j\in D} x_{ij} \le a_i && \forall i\in S,\\
-& \sum_{i\in S} x_{ij} \ge b_j && \forall j\in D,\\
-& x_{ij} \le M_{ij}\,y_{ij} && \forall (i,j)\in S\times D \quad \text{(link: flow only if arc is opened)},\\
-& x_{ij} \ge 0 && \forall (i,j)\in S\times D,\\
-& y_{ij} \in \{0,1\} && \forall (i,j)\in S\times D.
-\end{aligned}
-\]
-
-**Concrete instance (your costs).**
-\[
-\begin{aligned}
-\min\; & (10x_{\text{s1,d1}}+100y_{\text{s1,d1}}) + (20x_{\text{s1,d3}}+100y_{\text{s1,d3}}) + (11x_{\text{s1,d4}}+100y_{\text{s1,d4}}) \\
-& + (12x_{\text{s2,d1}}+100y_{\text{s2,d1}}) + (7x_{\text{s2,d2}}+100y_{\text{s2,d2}}) + (9x_{\text{s2,d3}}+100y_{\text{s2,d3}}) + (20x_{\text{s2,d4}}+100y_{\text{s2,d4}}) \\
-& + (14x_{\text{s3,d2}}+100y_{\text{s3,d2}}) + (16x_{\text{s3,d3}}+100y_{\text{s3,d3}}) + (18x_{\text{s3,d4}}+100y_{\text{s3,d4}})
-\end{aligned}
-\]
-
-with the same **supply/demand** constraints as in 2.4a, plus **linking constraints**
-\(x_{ij}\le M_{ij}y_{ij}\) and domains \(x_{ij}\ge 0,\; y_{ij}\in\{0,1\}\).
-
+Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**.
 ```{r, fig.cap=c('2.4b Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_4b.png'))
 ```
+The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and sends the required flows on them. The minimum total cost (including fixed charges) will be **\$1060**.
+*Interpretation.* With activation costs, the model prefers **fewer routes** carrying larger volumes to avoid paying many fixed fees. This raises total cost from **\$460** to **\$1060**, but yields a more consolidated network.
