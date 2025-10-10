@@ -10,8 +10,6 @@ output:
     latex_engine: xelatex
 fig_caption: true
 header-includes: \usepackage{float}
-# html_document:
-#     df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -177,8 +175,8 @@ As p <= 0.05, this yields a better result.
 
 # Excercise 2.3
 To solve the problem of the optimal product mix with excel. We choose the number of servings of each food to minimize total cost while meeting minimum nutrient requirements.
-It is important to note that for all questions, the options menu has the same configuration as in the image below. 
-```{r, fig.cap=c('Options Menu'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+It is important to note that for all questions (including 2.4 and 2.5), the options menu has the same configuration as in the image below. 
+```{r, fig.cap=c('Options Menu'), out.width='55%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/options_menu.png'))
 ```
 
@@ -206,7 +204,7 @@ The solution uses continuous servings, so constraints can be met exactly. We can
   & \sum_{f\in F} a^{\text{carb}}_f x_f \;\;\ge\; b_{\text{carb}}.
 \end{aligned}
 \]
-```{r, fig.cap=c('2.3a Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.3a Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3a.png'))
 ```
 According to the optimal solution for the linear optimization problem, the cheapest feasible diet is a two-food combination of 7.71 servings of baked potatoes and 9.28 servings of peanut butter, costing approximately $2.32 per day. In this optimal solution, the protein and carbohydrate requirements are exactly met, with an excess (slack) in calories and fat, meaning these nutrients are well above their minimum thresholds. 
@@ -219,7 +217,7 @@ Prices: \(c_{\text{pb}}^{(1)}=0.15\), \(c_{\text{pb}}^{(2)}=0.25\).
 Cap: \(0 \le x_{\text{pb}}^{(1)} \le 5\).
 
 All nutrients per serving are identical for both PB tiers.
-```{r, fig.cap=c('2.3b Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.3b Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3b.png'))
 ```
 *Interpretation.* This stays linear by replacing PB with two variables: buy up to 5 cheap units, then any extra at the higher price.
@@ -230,7 +228,7 @@ Same as (a), but restrict servings to integers:
 \[
 x_f \in \mathbb{Z}_{\ge 0}\quad \text{for all } f\in F.
 \]
-```{r, fig.cap=c('2.3c Excel Solver'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.3c Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3c.png'))
 ```
 Since the solution from part a was already optimal using fractional servings, limiting the model to whole numbers makes it less efficient. In this case, the cheapest diet is still a mix of baked potatoes and peanut butter, but because the solver can’t use fractional amounts, it has to round up to full servings. This makes the diet a bit more expensive, with the total cost rising slightly from about $2.31 to $2.43 per day.
@@ -252,7 +250,7 @@ This model minimizes total shipping cost from three sources (S1–S3) to four de
 \end{aligned}
 \]
 
-```{r, fig.cap=c('2.4a Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.4a Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_4a.png'))
 ```
 The optimal flows is the following, S1 ships 5 to D2 and 15 to D4; S2 ships 10 to D3 and 15 to D2; S3 ships 10 to D1 and 5 to D4. With a minimum total transportation cost of **\$460**.
@@ -260,7 +258,7 @@ The optimal flows is the following, S1 ships 5 to D2 and 15 to D4; S2 ships 10 t
 
 ### 2.4b 
 Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**.
-```{r, fig.cap=c('2.4b Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.4b Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_4b.png'))
 ```
 The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and sends the required flows on them. The minimum total cost (including fixed charges) will be **\$1060**.
@@ -268,7 +266,7 @@ The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and 
 
 # Excercise 2.5
 ### 2.5a
-```{r, fig.cap=c('2.5a Shift scheduling'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.5a Shift scheduling'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_5a.png'))
 ```
 
