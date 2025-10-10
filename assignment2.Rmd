@@ -89,20 +89,83 @@ data = read.table("treeVolume.txt", header = TRUE)
 ```{r}
 data$type <- factor(data$type)
 model_a = lm(volume ~ type, data = data)
+
+predict(model_a, newdata = data.frame(type = c("beech", "oak")))
+
 summary(model_a)
 anova(model_a)
 ```
-A one-way ANOVA comparing mean wood volume between Beech and Oak trees (n = 59) found no statistically significant difference in average volume between the species (\(F = 1.90, p = 0.17\)); thus, based on these data, we cannot conclude that Oaks are more voluminous than Beeches at the 5\% significance level. 
-The estimated mean volumes were approximately \(\bar{V}_{\text{Oak}} \approx [\text{insert mean}]\) and \(\bar{V}_{\text{Beech}} \approx [\text{insert mean}]\); although Oaks appear slightly larger on average, this observed difference is not statistically significant.
+An ANOVA comparing mean wood volume between "beech" and "oak" trees shows no statistically significant difference (F = 1.90, p = 0.17). This indicates that, based only on tree type, there is no evidence that oak trees are more voluminous than beech tres. The estimated mean volumes were approximately {beech=30.17, oak = 35.25}. While it appears oaks may be slightly larger on average, this difference is not significant at the 5% level.
 
 ### 2.2b
-```{r}
-data$type = factor(data$type)
-model_b <- lm(volume ~ diameter + height + type, data = data)
-summary(model_b)
-anova(model_b)  
+data = read.table("treeVolume.txt", header = TRUE)
+data$type <- factor(data$type)
+model_a = lm(volume ~ type, data = data)
+
+summary(model_a)
+anova(model_a)
 ```
-NOT DONE YET
+There is no statistically significant difference in average volume between Oak and Beech trees in this sample.
+That means, based on these 59 trees, we cannot conclude that Oaks are more voluminous than Beeches.
+A one-way ANOVA comparing mean wood volume between Beech and Oak trees showed no significant difference (F = 1.90, p = 0.17).
+The estimated mean volumes were ≈ [insert your group means]; hence, although Oaks appear slightly larger on average, this difference is not statistically significant at the 5 % level.
+
+b) (1.1) Investigate whether the tree type influences the volume, now including diameter
+and height (but no interactions) as predictors into the analysis, which results in an
+ANCOVA analysis. How does tree type influence volume? What are the estimated
+volumes for the two tree types with average diameter and height? (Hint: use function
+predict.) How does diameter influence volume? Graphically (or propose and perform
+a relevant test) investigate whether this dependence is similar for both tree types.
+
+```{r}
+data = read.table("treeVolume.txt", header=TRUE)
+data$type = factor(data$type)
+
+# fitting an ANCOVA model, now including diameter and height
+model_b <- lm(volume ~ diameter + height + type, data = data)
+
+str(data)
+summary(data)
+
+summary(model_b)
+anova(model_b)          
+
+#mean values from data (for estimating volume later)
+mean_diam = mean(data$diameter)
+mean_height = mean(data$height)
+```
+An ANCOVA including diameter and height as covariates showed that both diameter (p << 0.001) and height (p << 0.001) significantly affect tree volume. However, tree type was not significant (p = 0.143), indicating that, once diameter and height are accounted for, Beech and Oak trees have similar expected volumes.
+
+```{r}
+#Now we estimate/predict volumes for these avg values
+newdata = data.frame(
+  type = c("beech", "oak"),
+  diameter = mean_diam,
+  height = mean_height
+)
+
+predicted_vol = predict(model_b, newdata = newdata, interval = "confidence")
+predicted_vol
+```
+Using our fitted ANCOVA model, predicted mean volumes for "beech" and "oak" at average diameter and height are nearly identical, with overlapping confidence intervals. This confirms that tree type does not have a statistically significant influence on volume when tree size is controlled for.
+
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = diameter, y = volume, color = type)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  theme_minimal()
+```
+The scatterplot shows that volume increases linearly with diameter for both tree types, and the regression lines are nearly parallel. 
+
+
+```{r}
+model_interaction <- lm(volume ~ type * diameter + height, data = data)
+anova(model_b, model_interaction)
+```
+When we added an interaction between tree type and diameter, the model didn’t improve (F = 0.52, p = 0.474). This means the way volume changes with diameter is about the same for both beech and oak, so the ANCOVA assumption of parallel slopes is reasonable.
 
 ### 2.2c
 The volume of a cylinder is given by \(V = \pi r^{2} H\), where \(r\) is the radius of the circular base, \(H\) is the height, and \(\pi\) is the mathematical constant (approximately \(3.14159\)).
@@ -152,7 +215,7 @@ The solution uses continuous servings, so constraints can be met exactly. We can
 ```{r, fig.cap=c('2.3a Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3a.png'))
 ```
-The optimal continuous solution selects **7.7147** servings of potatoes and **9.2800** servings of peanut butter, with **0** servings of carrots, bread, and cheddar; the **total cost is \$2.3178**. The **binding constraints are protein and carbohydrates**, while **calories** (\(\approx\) 3063.8) and **fat** (\(\approx\) 150.0 g) have slack.
+According to the optimal solution for the linear optimization problem, the cheapest feasible diet is a two-food combination of 7.71 servings of baked potatoes and 9.28 servings of peanut butter, costing approximately $2.32 per day. In this optimal solution, the protein and carbohydrate requirements are exactly met, with an excess (slack) in calories and fat, meaning these nutrients are well above their minimum thresholds. 
 
 ### 2.3b
 Let peanut butter be split into two variables:
@@ -176,7 +239,7 @@ x_f \in \mathbb{Z}_{\ge 0}\quad \text{for all } f\in F.
 ```{r, fig.cap=c('2.3c Excel Solver'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3c.png'))
 ```
-*Interpretation.* Integrality removes the ability to hit thresholds exactly, so the solution “rounds up” and typically costs more than the fractional LP.
+Since the solution from part a was already optimal using fractional servings, limiting the model to whole numbers makes it less efficient. In this case, the cheapest diet is still a mix of baked potatoes and peanut butter, but because the solver can’t use fractional amounts, it has to round up to full servings. This makes the diet a bit more expensive, with the total cost rising slightly from about $2.31 to $2.43 per day.
 
 # Excercise 2.4
 
@@ -210,3 +273,11 @@ The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and 
 *Interpretation.* With activation costs, the model prefers **fewer routes** carrying larger volumes to avoid paying many fixed fees. This raises total cost from **\$460** to **\$1060**, but yields a more consolidated network.
 
 # Excercise 2.5
+### 2.5a
+```{r, fig.cap=c('2.5a Shift scheduling'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/2_5a.png'))
+```
+
+The schedule covers every time slot, with several slots having the exact number of workers required. The abrupt rise in workers from 11 to 19 at 17:00 is due to the overlap of new workers finishing up the rest of 4 hours of the day (part time 4-hour shift workers). The dip in workers from 19 workers to 10 after 17:30 is caused by the early 8-hour shifts finishing while the new 4-hour shifts are starting. 
+
+Most of the coverage comes from type A (8-hour) shifts, with a few shorter type B shifts added to handle busier times. The optimal (minimal) total daily cost comes to about €3,296, after meeting all constraints and requirements.
