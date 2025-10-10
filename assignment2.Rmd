@@ -179,3 +179,5 @@ knitr::include_graphics(c('imgs/2_3c.png'))
 ```
 *Interpretation.* Integrality removes the ability to hit thresholds exactly,
 so the solution “rounds up” and typically costs more than the fractional LP.
+
+# Excercise 2.4
