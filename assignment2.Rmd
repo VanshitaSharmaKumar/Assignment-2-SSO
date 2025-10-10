@@ -258,9 +258,12 @@ The optimal flows is the following, S1 ships 5 to D2 and 15 to D4; S2 ships 10 t
 
 ### 2.4b 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**.
 ```{r, fig.cap=c('2.4b Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 =======
+=======
+>>>>>>> Stashed changes
 Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**. The LO model is as follows:
 
 ### LO Model:
