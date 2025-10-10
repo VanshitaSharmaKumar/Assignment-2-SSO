@@ -239,7 +239,7 @@ x_f \in \mathbb{Z}_{\ge 0}\quad \text{for all } f\in F.
 ```{r, fig.cap=c('2.3c Excel Solver'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3c.png'))
 ```
-*Interpretation.* Integrality removes the ability to hit thresholds exactly, so the solution “rounds up” and typically costs more than the fractional LP.
+Since the solution from part a was already optimal using fractional servings, limiting the model to whole numbers makes it less efficient. In this case, the cheapest diet is still a mix of baked potatoes and peanut butter, but because the solver can’t use fractional amounts, it has to round up to full servings. This makes the diet a bit more expensive, with the total cost rising slightly from about $2.31 to $2.43 per day.
 
 # Excercise 2.4
 
