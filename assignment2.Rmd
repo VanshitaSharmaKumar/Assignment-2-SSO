@@ -299,4 +299,4 @@ Most of the coverage comes from type A (8-hour) shifts, with a few shorter type 
 knitr::include_graphics(c('imgs/2_5b.png'))
 ```
 
-The schedule is optimized to minimize the absolute sum of differences between scheduled hours en demanded hours. This is done by adding $d+$ and $d-$ to make the non-linear relation linear again.
+The schedule is optimized to minimize the absolute sum of differences between scheduled hours en demanded hours. This is done by adding $d+$ and $d-$ to make the non-linear relation linear again. In the end, the biggest difference occurs when there are either 3 more or 3 less people scheduled than demanded. The sum of differences is 17.
