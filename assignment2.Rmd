@@ -208,3 +208,5 @@ knitr::include_graphics(c('imgs/2_4b.png'))
 ```
 The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and sends the required flows on them. The minimum total cost (including fixed charges) will be **\$1060**.
 *Interpretation.* With activation costs, the model prefers **fewer routes** carrying larger volumes to avoid paying many fixed fees. This raises total cost from **\$460** to **\$1060**, but yields a more consolidated network.
+
+# Excercise 2.5
