@@ -72,7 +72,7 @@ cat("The AICS without takers2 is: ", result)
 anova_result = anova(m_nosq, m_sq)
 print(anova_result) 
 ```
-In a nested-model ANOVA comparing \(M_1:\ \text{total} \sim \text{expend} + \text{takers}\) to \(M_2:\ \text{total} \sim \text{expend} + \text{takers} + \text{takers}^2\), adding the quadratic term reduces the residual sum of squares from \(49{,}520\) to \(31{,}298\), a drop of \(18{,}222\) with one additional parameter (\(\text{df} = 1\)), yielding \(F(1,46)=26.783\) and \(p=4.872\times 10^{-6}\). This highly significant improvement leads us to reject \(H_0:\ \beta_{\text{takers}^2}=0\) and conclude that \(\textbf{takers}^2\) is a useful predictor: it captures curvature in the relationship between SAT scores and participation that the linear-only specification misses.
+In a nested-model ANOVA comparing \(M_1:\ \text{total} \sim \text{expend} + \text{takers}\) to \(M_2:\ \text{total} \sim \text{expend} + \text{takers} + \text{takers}^2\), adding the quadratic term reduces the residual sum of squares from \(49{,}520\) to \(31{,}298\), a drop of \(18{,}222\) with one additional parameter (\(\text{df} = 1\)), yielding \(F(1,46)=26.783\) and \(p=4.872\times 10^{-6}\). This highly significant improvement leads us to conclude that \(\textbf{takers}^2\) is a useful predictor: it captures curvature in the relationship between SAT scores and participation that the linear-only specification misses.
 
 ### 2.1c
 Comparing the reduced model \(M_1\) to the expanded model \(M_2\), the ANOVA shows a large and statistically significant drop in residual sum of squares as seen previously, where this drop implies the rejection of \(H_0:\beta_{\text{takers}^2}=0\) and confirming that the quadratic term is informative; this statistical improvement is mirrored by information criteria, with AIC falling from \(\approx 492.8\) for \(M_1\) to \(\approx 471.9\) for \(M_2\), indicating that the model including \(\text{takers}^2\) provides a substantially better fit despite its extra parameter.
@@ -104,18 +104,11 @@ model_a = lm(volume ~ type, data = data)
 
 summary(model_a)
 anova(model_a)
-```
+
 There is no statistically significant difference in average volume between Oak and Beech trees in this sample.
 That means, based on these 59 trees, we cannot conclude that Oaks are more voluminous than Beeches.
 A one-way ANOVA comparing mean wood volume between Beech and Oak trees showed no significant difference (F = 1.90, p = 0.17).
 The estimated mean volumes were ≈ [insert your group means]; hence, although Oaks appear slightly larger on average, this difference is not statistically significant at the 5 % level.
-
-b) (1.1) Investigate whether the tree type influences the volume, now including diameter
-and height (but no interactions) as predictors into the analysis, which results in an
-ANCOVA analysis. How does tree type influence volume? What are the estimated
-volumes for the two tree types with average diameter and height? (Hint: use function
-predict.) How does diameter influence volume? Graphically (or propose and perform
-a relevant test) investigate whether this dependence is similar for both tree types.
 
 ```{r}
 data = read.table("treeVolume.txt", header=TRUE)
