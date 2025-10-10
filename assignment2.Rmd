@@ -96,13 +96,74 @@ A one-way ANOVA comparing mean wood volume between Beech and Oak trees (n = 59) 
 The estimated mean volumes were approximately \(\bar{V}_{\text{Oak}} \approx [\text{insert mean}]\) and \(\bar{V}_{\text{Beech}} \approx [\text{insert mean}]\); although Oaks appear slightly larger on average, this observed difference is not statistically significant.
 
 ### 2.2b
-```{r}
-data$type = factor(data$type)
-model_b <- lm(volume ~ diameter + height + type, data = data)
-summary(model_b)
-anova(model_b)  
+data = read.table("treeVolume.txt", header = TRUE)
+data$type <- factor(data$type)
+model_a = lm(volume ~ type, data = data)
+
+summary(model_a)
+anova(model_a)
 ```
-NOT DONE YET
+There is no statistically significant difference in average volume between Oak and Beech trees in this sample.
+That means, based on these 59 trees, we cannot conclude that Oaks are more voluminous than Beeches.
+A one-way ANOVA comparing mean wood volume between Beech and Oak trees showed no significant difference (F = 1.90, p = 0.17).
+The estimated mean volumes were ≈ [insert your group means]; hence, although Oaks appear slightly larger on average, this difference is not statistically significant at the 5 % level.
+
+b) (1.1) Investigate whether the tree type influences the volume, now including diameter
+and height (but no interactions) as predictors into the analysis, which results in an
+ANCOVA analysis. How does tree type influence volume? What are the estimated
+volumes for the two tree types with average diameter and height? (Hint: use function
+predict.) How does diameter influence volume? Graphically (or propose and perform
+a relevant test) investigate whether this dependence is similar for both tree types.
+
+```{r}
+data = read.table("treeVolume.txt", header=TRUE)
+data$type = factor(data$type)
+
+# fitting an ANCOVA model, now including diameter and height
+model_b <- lm(volume ~ diameter + height + type, data = data)
+
+str(data)
+summary(data)
+
+summary(model_b)
+anova(model_b)          
+
+#mean values from data (for estimating volume later)
+mean_diam = mean(data$diameter)
+mean_height = mean(data$height)
+```
+An ANCOVA including diameter and height as covariates showed that both diameter (p << 0.001) and height (p << 0.001) significantly affect tree volume. However, tree type was not significant (p = 0.143), indicating that, once diameter and height are accounted for, Beech and Oak trees have similar expected volumes.
+
+```{r}
+#Now we estimate/predict volumes for these avg values
+newdata = data.frame(
+  type = c("beech", "oak"),
+  diameter = mean_diam,
+  height = mean_height
+)
+
+predicted_vol = predict(model_b, newdata = newdata, interval = "confidence")
+predicted_vol
+```
+Using our fitted ANCOVA model, predicted mean volumes for "beech" and "oak" at average diameter and height are nearly identical, with overlapping confidence intervals. This confirms that tree type does not have a statistically significant influence on volume when tree size is controlled for.
+
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = diameter, y = volume, color = type)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  theme_minimal()
+```
+The scatterplot shows that volume increases linearly with diameter for both tree types, and the regression lines are nearly parallel. 
+
+
+```{r}
+model_interaction <- lm(volume ~ type * diameter + height, data = data)
+anova(model_b, model_interaction)
+```
+The test comparing the simple ANCOVA model to one including a type + diameter term gives F = 0.52, p = 0.474, indicating no significant interaction. Therefore, the relationship between diameter and volume is statistically the same for Beech and Oak, validating the assumption of equal slopes in ANCOVA.
 
 ### 2.2c
 The volume of a cylinder is given by \(V = \pi r^{2} H\), where \(r\) is the radius of the circular base, \(H\) is the height, and \(\pi\) is the mathematical constant (approximately \(3.14159\)).
