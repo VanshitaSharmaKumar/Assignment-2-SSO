@@ -215,7 +215,7 @@ The solution uses continuous servings, so constraints can be met exactly. We can
 ```{r, fig.cap=c('2.3a Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_3a.png'))
 ```
-The optimal continuous solution selects **7.7147** servings of potatoes and **9.2800** servings of peanut butter, with **0** servings of carrots, bread, and cheddar; the **total cost is \$2.3178**. The **binding constraints are protein and carbohydrates**, while **calories** (\(\approx\) 3063.8) and **fat** (\(\approx\) 150.0 g) have slack.
+According to the optimal solution for the linear optimization problem, the cheapest feasible diet is a two-food combination of 7.71 servings of baked potatoes and 9.28 servings of peanut butter, costing approximately $2.32 per day. In this optimal solution, the protein and carbohydrate requirements are exactly met, with an excess (slack) in calories and fat, meaning these nutrients are well above their minimum thresholds. 
 
 ### 2.3b
 Let peanut butter be split into two variables:
