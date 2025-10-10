@@ -268,7 +268,7 @@ The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and 
 
 # Excercise 2.5
 ### 2.5a
-```{r, fig.cap=c('2.5a Shift scheduling'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+```{r, fig.cap=c('2.5a Shift scheduling'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
 knitr::include_graphics(c('imgs/2_5a.png'))
 ```
 
