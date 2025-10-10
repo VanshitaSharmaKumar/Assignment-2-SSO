@@ -5,13 +5,19 @@ author:
   - "Lucian Truşcă"
   - "Xander Poortvliet"
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+  pdf_document:
+    latex_engine: xelatex
+fig_caption: true
+header-includes:
+  - \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
 library(knitr)
 library(modelsummary)
 library(ggplot2)
+library(png)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -67,8 +73,14 @@ anova_result = anova(m_nosq, m_sq)
 print(anova_result) 
 ```
 In a nested-model ANOVA comparing \(M_1:\ \text{total} \sim \text{expend} + \text{takers}\) to \(M_2:\ \text{total} \sim \text{expend} + \text{takers} + \text{takers}^2\), adding the quadratic term reduces the residual sum of squares from \(49{,}520\) to \(31{,}298\), a drop of \(18{,}222\) with one additional parameter (\(\text{df} = 1\)), yielding \(F(1,46)=26.783\) and \(p=4.872\times 10^{-6}\). This highly significant improvement leads us to reject \(H_0:\ \beta_{\text{takers}^2}=0\) and conclude that \(\textbf{takers}^2\) is a useful predictor: it captures curvature in the relationship between SAT scores and participation that the linear-only specification misses.
+
 ### 2.1c
 Comparing the reduced model \(M_1\) to the expanded model \(M_2\), the ANOVA shows a large and statistically significant drop in residual sum of squares as seen previously, where this drop implies the rejection of \(H_0:\beta_{\text{takers}^2}=0\) and confirming that the quadratic term is informative; this statistical improvement is mirrored by information criteria, with AIC falling from \(\approx 492.8\) for \(M_1\) to \(\approx 471.9\) for \(M_2\), indicating that the model including \(\text{takers}^2\) provides a substantially better fit despite its extra parameter.
+
+### 2.1d
+QUESTION D
+
+
 
 # Excercise 2.2
 ### 2.2a
@@ -108,6 +120,62 @@ anova(model_c)
 As p <= 0.05, this yields a better result.
 
 # Excercise 2.3
-### 2.3a
+To solve the problem of the optimal product mix with excel. We choose the number of servings of each food to minimize total cost while meeting minimum nutrient requirements.
+It is important to note that for all questions, the options menu has the same configuration as in the image below. 
+```{r, fig.cap=c('Options Menu'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/options_menu.png'))
+```
 
-To solve the problem of the optimal product mix with excel
+### Notation
+- Foods \(F=\{\text{carrots},\text{potatoes},\text{bread},\text{cheddar},\text{pb}\}\).
+- Parameters per serving \(f\in F\):
+  - price \(c_f\),
+  - calories \(a^{\text{cal}}_f\),
+  - fat \(a^{\text{fat}}_f\),
+  - protein \(a^{\text{prot}}_f\),
+  - carbs \(a^{\text{carb}}_f\).
+- Minimum requirements: \((b_{\text{cal}}, b_{\text{fat}}, b_{\text{prot}}, b_{\text{carb}})=(2000,50,100,250)\).
+- Decision variables: \(x_f \ge 0\) = servings of food \(f\).
+
+### 2.3a
+The solution uses continuous servings, so constraints can be met exactly. We can visualise our excel solver.
+\[
+\begin{aligned}
+\min_{x\ge0}\quad 
+  & \sum_{f\in F} c_f\,x_f \\
+\text{s.t.}\quad
+  & \sum_{f\in F} a^{\text{cal}}_f x_f \;\;\ge\; b_{\text{cal}},\\
+  & \sum_{f\in F} a^{\text{fat}}_f x_f \;\;\ge\; b_{\text{fat}},\\
+  & \sum_{f\in F} a^{\text{prot}}_f x_f \;\;\ge\; b_{\text{prot}},\\
+  & \sum_{f\in F} a^{\text{carb}}_f x_f \;\;\ge\; b_{\text{carb}}.
+\end{aligned}
+\]
+```{r, fig.cap=c('2.3a Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/2_3a.png'))
+```
+The optimal continuous solution selects **7.7147** servings of potatoes and **9.2800** servings of peanut butter, with **0** servings of carrots, bread, and cheddar; the **total cost is \$2.3178**. The **binding constraints are protein and carbohydrates**, while **calories** (\(\approx\) 3063.8) and **fat** (\(\approx\) 150.0 g) have slack.
+
+### 2.3b
+Let peanut butter be split into two variables:
+\(x_{\text{pb}}^{(1)}\) = the **first** (cheap) PB servings, and
+\(x_{\text{pb}}^{(2)}\) = any **additional** PB servings.
+Prices: \(c_{\text{pb}}^{(1)}=0.15\), \(c_{\text{pb}}^{(2)}=0.25\).
+Cap: \(0 \le x_{\text{pb}}^{(1)} \le 5\).
+
+All nutrients per serving are identical for both PB tiers.
+```{r, fig.cap=c('2.3b Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/2_3b.png'))
+```
+*Interpretation.* This stays linear by replacing PB with two variables: buy up to 5 cheap units, then any extra at the higher price.
+In the optimum, the model purchases exactly the 5 cheap PB units and substitutes the rest with the next-best cheap source (potatoes), increasing total cost to 16.62 vs. (a).
+
+### 2.3c
+Same as (a), but restrict servings to integers:
+\[
+x_f \in \mathbb{Z}_{\ge 0}\quad \text{for all } f\in F.
+\]
+```{r, fig.cap=c('2.3c Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/2_3c.png'))
+```
+*Interpretation.* Integrality removes the ability to hit thresholds exactly,
+so the solution “rounds up” and typically costs more than the fractional LP.
