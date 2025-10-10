@@ -89,11 +89,13 @@ data = read.table("treeVolume.txt", header = TRUE)
 ```{r}
 data$type <- factor(data$type)
 model_a = lm(volume ~ type, data = data)
+
+predict(model_a, newdata = data.frame(type = c("beech", "oak")))
+
 summary(model_a)
 anova(model_a)
 ```
-A one-way ANOVA comparing mean wood volume between Beech and Oak trees (n = 59) found no statistically significant difference in average volume between the species (\(F = 1.90, p = 0.17\)); thus, based on these data, we cannot conclude that Oaks are more voluminous than Beeches at the 5\% significance level. 
-The estimated mean volumes were approximately \(\bar{V}_{\text{Oak}} \approx [\text{insert mean}]\) and \(\bar{V}_{\text{Beech}} \approx [\text{insert mean}]\); although Oaks appear slightly larger on average, this observed difference is not statistically significant.
+An ANOVA comparing mean wood volume between "beech" and "oak" trees shows no statistically significant difference (F = 1.90, p = 0.17). This indicates that, based only on tree type, there is no evidence that oak trees are more voluminous than beech tres. The estimated mean volumes were approximately {beech=30.17, oak = 35.25}. While it appears oaks may be slightly larger on average, this difference is not significant at the 5% level.
 
 ### 2.2b
 data = read.table("treeVolume.txt", header = TRUE)
