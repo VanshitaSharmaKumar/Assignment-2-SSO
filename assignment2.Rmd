@@ -292,3 +292,13 @@ knitr::include_graphics(c('imgs/2_4b.png'))
 ```
 The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and sends the required flows on them. The minimum total cost (including fixed charges) will be **\$1060**.
 *Interpretation.* With activation costs, the model prefers **fewer routes** carrying larger volumes to avoid paying many fixed fees. This raises total cost from **\$460** to **\$1060**, but yields a more consolidated network.
+
+# Excercise 2.5
+### 2.5a
+```{r, fig.cap=c('2.5a Shift scheduling'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/2_5a.png'))
+```
+
+The schedule covers every time slot, with several slots having the exact number of workers required. The abrupt rise in workers from 11 to 19 at 17:00 is due to the overlap of new workers finishing up the rest of 4 hours of the day (part time 4-hour shift workers). The dip in workers from 19 workers to 10 after 17:30 is caused by the early 8-hour shifts finishing while the new 4-hour shifts are starting. 
+
+Most of the coverage comes from type A (8-hour) shifts, with a few shorter type B shifts added to handle busier times. The optimal (minimal) total daily cost comes to about €3,296, after meeting all constraints and requirements.
