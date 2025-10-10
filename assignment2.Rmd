@@ -257,19 +257,12 @@ The optimal flows is the following, S1 ships 5 to D2 and 15 to D4; S2 ships 10 t
 *Interpretation.* The solution uses the cheapest lanes as much as possible (e.g., S2\(\rightarrow\)D2, S3\(\rightarrow\)D1) and avoids expensive ones (e.g., S1\(\rightarrow\)D3). Total cost **\$460** is the most economical plan that exactly meets demand without exceeding supply.
 
 ### 2.4b 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**.
-```{r, fig.cap=c('2.4b Excel Solver'), out.width='65%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**. The LO model is as follows:
 
-### LO Model:
+Question 2.4b extends the previous question by adding a **fixed cost of 100** each time a route \((i,j)\) is used. Binary variables \(y_{ij}\in\{0,1\}\) indicate whether a route is opened. The objective now minimizes **transport cost + fixed activation cost**. 
+
+The LO model is as follows:
+
+*LO Model:*
 
 $min(10x_{s1d1} + 100y_{s1d1} + 20x_{s1d3} + 100y_{s1d3} + 11x_{s1d4} + + 100y_{s1d4} + 12x_{s2d1} + 100y_{s2d1} + 7x_{s2d2} + 100y_{s2d2} + 9x_{s2d3} + 100y_{s2d3} + 20x_{s2d4} + 100y_{s2d4} + 14x_{s3d2} + 100y_{s3d2} + 16x_{s3d3} + 100y_{s3d3} + 18x_{s3d4} + 100y_{s3d4})$
 
@@ -286,7 +279,6 @@ s.t.
 - $y_{ij} = \{1,0\}$
 
 ```{r, fig.cap=c('2.4b Excel Solver'), out.width='60%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
->>>>>>> Stashed changes
 knitr::include_graphics(c('imgs/2_4b.png'))
 ```
 The optimal plan opens only cost-effective routes (those with \(y_{ij}=1\)) and sends the required flows on them. The minimum total cost (including fixed charges) will be **\$1060**.
@@ -303,8 +295,8 @@ The schedule covers every time slot, with several slots having the exact number 
 Most of the coverage comes from type A (8-hour) shifts, with a few shorter type B shifts added to handle busier times. The optimal (minimal) total daily cost comes to about €3,296, after meeting all constraints and requirements.
 
 ### 2.5b
+```{r, fig.cap=c('2.5b Shift scheduling'), out.width='50%', fig.show='hold', fig.align='center', fig.pos='H', echo=FALSE}
+knitr::include_graphics(c('imgs/2_5b.png'))
+```
 
-LO model:
-
-
-
+The schedule is optimized to minimize the absolute sum of differences between scheduled hours en demanded hours. This is done by adding $d+$ and $d-$ to make the non-linear relation linear again.
