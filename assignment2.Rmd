@@ -1,16 +1,17 @@
 ---
 title: "Assignment 2 Group 26"
-author: 
-  - "Vanshita Sharma Kumar"
-  - "Lucian Truşcă"
-  - "Xander Poortvliet"
+author:
+- Vanshita Sharma Kumar
+- Lucian Truşcă
+- Xander Poortvliet
 date: "`r Sys.Date()`"
 output:
+  html_document:
+    df_print: paged
   pdf_document:
     latex_engine: xelatex
 fig_caption: true
-header-includes:
-  - \usepackage{float}
+header-includes: \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
@@ -78,8 +79,27 @@ In a nested-model ANOVA comparing \(M_1:\ \text{total} \sim \text{expend} + \tex
 Comparing the reduced model \(M_1\) to the expanded model \(M_2\), the ANOVA shows a large and statistically significant drop in residual sum of squares as seen previously, where this drop implies the rejection of \(H_0:\beta_{\text{takers}^2}=0\) and confirming that the quadratic term is informative; this statistical improvement is mirrored by information criteria, with AIC falling from \(\approx 492.8\) for \(M_1\) to \(\approx 471.9\) for \(M_2\), indicating that the model including \(\text{takers}^2\) provides a substantially better fit despite its extra parameter.
 
 ### 2.1d
-QUESTION D
 
+```{r}
+model_best = lm(total ~ takers + takers2 + expend, data = sat)
+
+state = data.frame(
+  expend=5,
+  ratio=20,
+  salary=36.000,
+  takers=25,
+  takers2=25^2
+)
+
+predict(model_best, newdata = state, interval = "prediction", level = 0.95)
+
+predict(model_best, newdata = state, interval = "confidence", level = 0.95)
+```
+
+The 95% prediction and confidence intervals are as follows:
+
+- Prediction: [907.6003, 1015.54]
+- Confidence: [949.0796, 974.061]
 
 # Excercise 2.2
 ### 2.2a
@@ -98,18 +118,6 @@ anova(model_a)
 An ANOVA comparing mean wood volume between "beech" and "oak" trees shows no statistically significant difference (F = 1.90, p = 0.17). This indicates that, based only on tree type, there is no evidence that oak trees are more voluminous than beech tres. The estimated mean volumes were approximately {beech=30.17, oak = 35.25}. While it appears oaks may be slightly larger on average, this difference is not significant at the 5% level.
 
 ### 2.2b
-data = read.table("treeVolume.txt", header = TRUE)
-data$type <- factor(data$type)
-model_a = lm(volume ~ type, data = data)
-
-summary(model_a)
-anova(model_a)
-
-There is no statistically significant difference in average volume between Oak and Beech trees in this sample.
-That means, based on these 59 trees, we cannot conclude that Oaks are more voluminous than Beeches.
-A one-way ANOVA comparing mean wood volume between Beech and Oak trees showed no significant difference (F = 1.90, p = 0.17).
-The estimated mean volumes were ≈ [insert your group means]; hence, although Oaks appear slightly larger on average, this difference is not statistically significant at the 5 % level.
-
 ```{r}
 data = read.table("treeVolume.txt", header=TRUE)
 data$type = factor(data$type)
@@ -142,7 +150,6 @@ predicted_vol
 ```
 Using our fitted ANCOVA model, predicted mean volumes for "beech" and "oak" at average diameter and height are nearly identical, with overlapping confidence intervals. This confirms that tree type does not have a statistically significant influence on volume when tree size is controlled for.
 
-
 ```{r}
 library(ggplot2)
 
@@ -152,7 +159,6 @@ ggplot(data, aes(x = diameter, y = volume, color = type)) +
   theme_minimal()
 ```
 The scatterplot shows that volume increases linearly with diameter for both tree types, and the regression lines are nearly parallel. 
-
 
 ```{r}
 model_interaction <- lm(volume ~ type * diameter + height, data = data)
