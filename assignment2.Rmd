@@ -119,26 +119,6 @@ An ANOVA comparing mean wood volume between "beech" and "oak" trees shows no sta
 
 ### 2.2b
 ```{r}
-data = read.table("treeVolume.txt", header = TRUE)
-data$type <- factor(data$type)
-model_a = lm(volume ~ type, data = data)
-
-summary(model_a)
-anova(model_a)
-```
-There is no statistically significant difference in average volume between Oak and Beech trees in this sample.
-That means, based on these 59 trees, we cannot conclude that Oaks are more voluminous than Beeches.
-A one-way ANOVA comparing mean wood volume between Beech and Oak trees showed no significant difference (F = 1.90, p = 0.17).
-The estimated mean volumes were ≈ [insert your group means]; hence, although Oaks appear slightly larger on average, this difference is not statistically significant at the 5 % level.
-
-b) (1.1) Investigate whether the tree type influences the volume, now including diameter
-and height (but no interactions) as predictors into the analysis, which results in an
-ANCOVA analysis. How does tree type influence volume? What are the estimated
-volumes for the two tree types with average diameter and height? (Hint: use function
-predict.) How does diameter influence volume? Graphically (or propose and perform
-a relevant test) investigate whether this dependence is similar for both tree types.
-
-```{r}
 data = read.table("treeVolume.txt", header=TRUE)
 data$type = factor(data$type)
 
