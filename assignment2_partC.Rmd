@@ -35,7 +35,7 @@ p \> 0.05, hence, H0 is not rejected and we do not reject the hypothesis that th
 
 ## Exercise 2.2c
 
-The volume of a cilinder is calculated as follows: V = pi\*r^2\*H
+The volume of a cylinder is given by \(V = \pi r^{2} H\), where \(r\) is the radius of the circular base, \(H\) is the height, and \(\pi\) is the mathematical constant (approximately \(3.14159\)).
 
 ```{r 2.2c}
 trees$calc_vol = pi*((trees$diameter/2)^2)*trees$height

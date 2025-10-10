@@ -16,10 +16,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Excercise 2.1
-## 2.1a
+### 2.1a
 We first will start with the full multi-regression model
-```{r 2.1 a}
+```{r, echo=FALSE}
 sat = read.delim("sat.txt", header=TRUE, sep = "", stringsAsFactors = FALSE)
+```
+```{r 2.1 a}
 model_full = lm(total ~ expend + ratio + salary + takers, data=sat)
 ```
 ```{r, echo=FALSE}
@@ -41,7 +43,7 @@ cat("The AIC score for the step-down method  =", (AIC(model_StepDown)))
 ```
 Model interpretation: SAT performance is best explained by school spending and participation rate. Other variables (ratio, salary) don’t significantly improve model fit. 
 
-## 2.1b
+### 2.1b
 ```{r}
 sat$takers2 = sat$takers^2
 ## 2) Stepwise model selection (AIC)
@@ -65,7 +67,47 @@ anova_result = anova(m_nosq, m_sq)
 print(anova_result) 
 ```
 In a nested-model ANOVA comparing \(M_1:\ \text{total} \sim \text{expend} + \text{takers}\) to \(M_2:\ \text{total} \sim \text{expend} + \text{takers} + \text{takers}^2\), adding the quadratic term reduces the residual sum of squares from \(49{,}520\) to \(31{,}298\), a drop of \(18{,}222\) with one additional parameter (\(\text{df} = 1\)), yielding \(F(1,46)=26.783\) and \(p=4.872\times 10^{-6}\). This highly significant improvement leads us to reject \(H_0:\ \beta_{\text{takers}^2}=0\) and conclude that \(\textbf{takers}^2\) is a useful predictor: it captures curvature in the relationship between SAT scores and participation that the linear-only specification misses.
-
-
-## 2.1c
+### 2.1c
 Comparing the reduced model \(M_1\) to the expanded model \(M_2\), the ANOVA shows a large and statistically significant drop in residual sum of squares as seen previously, where this drop implies the rejection of \(H_0:\beta_{\text{takers}^2}=0\) and confirming that the quadratic term is informative; this statistical improvement is mirrored by information criteria, with AIC falling from \(\approx 492.8\) for \(M_1\) to \(\approx 471.9\) for \(M_2\), indicating that the model including \(\text{takers}^2\) provides a substantially better fit despite its extra parameter.
+
+# Excercise 2.2
+### 2.2a
+```{r, echo=FALSE}
+data = read.table("treeVolume.txt", header = TRUE)
+```
+```{r}
+data$type <- factor(data$type)
+model_a = lm(volume ~ type, data = data)
+summary(model_a)
+anova(model_a)
+```
+A one-way ANOVA comparing mean wood volume between Beech and Oak trees (n = 59) found no statistically significant difference in average volume between the species (\(F = 1.90, p = 0.17\)); thus, based on these data, we cannot conclude that Oaks are more voluminous than Beeches at the 5\% significance level. 
+The estimated mean volumes were approximately \(\bar{V}_{\text{Oak}} \approx [\text{insert mean}]\) and \(\bar{V}_{\text{Beech}} \approx [\text{insert mean}]\); although Oaks appear slightly larger on average, this observed difference is not statistically significant.
+
+### 2.2b
+```{r}
+data$type = factor(data$type)
+model_b <- lm(volume ~ diameter + height + type, data = data)
+summary(model_b)
+anova(model_b)  
+```
+NOT DONE YET
+
+### 2.2c
+The volume of a cylinder is given by \(V = \pi r^{2} H\), where \(r\) is the radius of the circular base, \(H\) is the height, and \(\pi\) is the mathematical constant (approximately \(3.14159\)).
+```{r, echo=FALSE}
+trees = read.table("treeVolume.txt", header = TRUE, sep = "\t")
+```
+```{r 2.2c}
+trees$type = factor(trees$type)
+trees$calc_vol = pi*((trees$diameter/2)^2)*trees$height
+model_c = lm(volume ~ calc_vol + type, data = trees)
+summary(model_c)
+anova(model_c)
+```
+As p <= 0.05, this yields a better result.
+
+# Excercise 2.3
+### 2.3a
+
+To solve the problem of the optimal product mix with excel
