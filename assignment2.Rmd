@@ -15,39 +15,57 @@ library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Excercise 2.1 
+# Excercise 2.1
+## 2.1a
 We first will start with the full multi-regression model
 ```{r 2.1 a}
 sat = read.delim("sat.txt", header=TRUE, sep = "", stringsAsFactors = FALSE)
-model_full <- lm(total ~ expend + ratio + salary + takers, data=sat)
+model_full = lm(total ~ expend + ratio + salary + takers, data=sat)
 ```
 ```{r, echo=FALSE}
-print(summary(model_full))
-print(AIC(model_full))
-
-result_table = modelsummary(list(
-    "model_full_AIC" = AIC(model_full),
-    "model_StepDown_AIC" = AIC(model_StepDown),
-    "model_StepUp_AIC" = AIC(model_StepUp)
-), 
-statistic = "({std.error})",      # show SEs in parentheses
-  stars = TRUE,                      # significance stars
-  gof_map = list(                    # control bottom GOF rows
-    list("raw"="nobs", "clean"="N", "fmt"=0),
-    list("raw"="r.squared", "clean"="R²", "fmt"=3),
-    list("raw"="adj.r.squared", "clean"="Adj. R²", "fmt"=3),
-    list("raw"="AIC", "clean"="AIC", "fmt"=1),
-    list("raw"="BIC", "clean"="BIC", "fmt"=1)
-  )
+cat("The AIC score for the full model =", (AIC(model_full)))
 ```
-
 Step Up method: With the forward selection we will first start with no predictors and add variables one by one based on the lowest AIC
-```{r 2.1 a}
-model_StepUp <- lm(total ~ expend + takers, data=sat)
+```{r}
+model_StepUp = lm(total ~ expend + takers, data=sat)
 ```
 ```{r, echo=FALSE}
-print(summary(model_StepUp))
-print(AIC(model_StepUp))
+cat("The AIC score for the step-up method  =", (AIC(model_StepUp)))
 ```
-
+Step-down Method: we start from the full model and iteratively remove variables that worsen AIC the least.
+```{r}
+model_StepDown <- lm(total ~ expend + takers, data=sat)
+```
+```{r, echo=FALSE}
+cat("The AIC score for the step-down method  =", (AIC(model_StepDown)))
+```
 Model interpretation: SAT performance is best explained by school spending and participation rate. Other variables (ratio, salary) don’t significantly improve model fit. 
+
+## 2.1b
+```{r}
+sat$takers2 = sat$takers^2
+## 2) Stepwise model selection (AIC)
+# forward (start from intercept)
+m0    = lm(total ~ 1, data = sat)
+scope = ~ expend + ratio + salary + takers + takers2
+m_fwd = step(m0, scope = list(lower = ~1, upper = scope),
+              direction = "forward", trace = 0)
+```
+Where the result for the AIC is 473.9 (rounded up from 473.85). 
+```{r, echo=FALSE}
+# backward (start from full)
+m_full = lm(total ~ expend + ratio + salary + takers + takers2, data = sat)
+m_bwd  = step(m_full, direction = "backward", trace = 0)
+## 3) Is takers^2 useful? Compare with/without the square
+m_nosq = lm(total ~ expend + takers, data = sat)          # without takers^2
+m_sq   = lm(formula(m_fwd), data = sat)
+result = AIC(m_nosq); AIC(m_sq) 
+cat("The AICS without takers2 is: ", result)
+anova_result = anova(m_nosq, m_sq)
+print(anova_result) 
+```
+In a nested-model ANOVA comparing \(M_1:\ \text{total} \sim \text{expend} + \text{takers}\) to \(M_2:\ \text{total} \sim \text{expend} + \text{takers} + \text{takers}^2\), adding the quadratic term reduces the residual sum of squares from \(49{,}520\) to \(31{,}298\), a drop of \(18{,}222\) with one additional parameter (\(\text{df} = 1\)), yielding \(F(1,46)=26.783\) and \(p=4.872\times 10^{-6}\). This highly significant improvement leads us to reject \(H_0:\ \beta_{\text{takers}^2}=0\) and conclude that \(\textbf{takers}^2\) is a useful predictor: it captures curvature in the relationship between SAT scores and participation that the linear-only specification misses.
+
+
+## 2.1c
+Comparing the reduced model \(M_1\) to the expanded model \(M_2\), the ANOVA shows a large and statistically significant drop in residual sum of squares as seen previously, where this drop implies the rejection of \(H_0:\beta_{\text{takers}^2}=0\) and confirming that the quadratic term is informative; this statistical improvement is mirrored by information criteria, with AIC falling from \(\approx 492.8\) for \(M_1\) to \(\approx 471.9\) for \(M_2\), indicating that the model including \(\text{takers}^2\) provides a substantially better fit despite its extra parameter.

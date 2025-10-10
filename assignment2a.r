@@ -26,20 +26,20 @@ hist(model_full$residuals, main="Histogram of residuals", xlab="Residuals", col=
 qqnorm(model_full$residuals, main="Q-Q plot of residuals")
 qqline(model_full$residuals, col="red")
 
-# making results into tables:
-result_table = modelsummary(list(
-    "model_full_AIC" = AIC(model_full),
-    "model_StepDown_AIC" = AIC(model_StepDown),
-    "model_StepUp_AIC" = AIC(model_StepUp),
-), 
+# # making results into tables:
+# result_table = modelsummary(list(
+#     "model_full_AIC" = AIC(model_full),
+#     "model_StepDown_AIC" = AIC(model_StepDown),
+#     "model_StepUp_AIC" = AIC(model_StepUp),
+# ), 
 
-statistic = "({std.error})",      # show SEs in parentheses
-  stars = TRUE,                      # significance stars
-  gof_map = list(                    # control bottom GOF rows
-    list("raw"="nobs", "clean"="N", "fmt"=0),
-    list("raw"="r.squared", "clean"="R²", "fmt"=3),
-    list("raw"="adj.r.squared", "clean"="Adj. R²", "fmt"=3),
-    list("raw"="AIC", "clean"="AIC", "fmt"=1),
-    list("raw"="BIC", "clean"="BIC", "fmt"=1)
-  )
-)
+# statistic = "({std.error})",      # show SEs in parentheses
+#   stars = TRUE,                      # significance stars
+#   gof_map = list(                    # control bottom GOF rows
+#     list("raw"="nobs", "clean"="N", "fmt"=0),
+#     list("raw"="r.squared", "clean"="R²", "fmt"=3),
+#     list("raw"="adj.r.squared", "clean"="Adj. R²", "fmt"=3),
+#     list("raw"="AIC", "clean"="AIC", "fmt"=1),
+#     list("raw"="BIC", "clean"="BIC", "fmt"=1)
+#   )
+# )
