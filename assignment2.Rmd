@@ -165,7 +165,7 @@ The scatterplot shows that volume increases linearly with diameter for both tree
 model_interaction <- lm(volume ~ type * diameter + height, data = data)
 anova(model_b, model_interaction)
 ```
-The test comparing the simple ANCOVA model to one including a type + diameter term gives F = 0.52, p = 0.474, indicating no significant interaction. Therefore, the relationship between diameter and volume is statistically the same for Beech and Oak, validating the assumption of equal slopes in ANCOVA.
+When we added an interaction between tree type and diameter, the model didn’t improve (F = 0.52, p = 0.474). This means the way volume changes with diameter is about the same for both beech and oak, so the ANCOVA assumption of parallel slopes is reasonable.
 
 ### 2.2c
 The volume of a cylinder is given by \(V = \pi r^{2} H\), where \(r\) is the radius of the circular base, \(H\) is the height, and \(\pi\) is the mathematical constant (approximately \(3.14159\)).
