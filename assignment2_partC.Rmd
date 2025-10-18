@@ -109,3 +109,10 @@ s.t.
 - $x_{s1d4} + x_{s2d4} + x_{s3d4} + x_{s4d4} \geq 20$
 - $x_{ij} \geq= 0, i = s1,s2,s3, j = d1,d2,d3,d4$
 - $y_{ij} = \{1,0\}$
+
+
+## Exercise 2.5b
+
+### LO Model:
+
+$$
